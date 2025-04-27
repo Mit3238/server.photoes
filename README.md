@@ -27,7 +27,7 @@
 
 ## Frontend
 
-The `frontend/` directory contains the user interface for the photo application, built using plain HTML, CSS, and JavaScript. It interacts with the Flask backend via API calls.
+The `frontend/` directory contains the user interface for the photo application, built using plain HTML, CSS, and JavaScript. It interacts with the Flask backend via API calls. Back buttons have been added to detail pages for easier navigation, and photo grids use infinite scrolling.
 
 ### Running the Frontend
 
@@ -43,7 +43,7 @@ Since the Flask application is now configured to serve the frontend files:
 
 -   `index.html`: The homepage, allowing users to upload new photos, start/stop background face processing, view a list of recognized persons, and see a grid of recent photos.
 -   `person.html`: Shows all photos associated with a specific person and allows editing the person's name. Accessed by clicking a person on the homepage.
--   `photo.html`: Displays a single photo along with bounding boxes and names for any recognized people within that photo. Accessed by clicking a photo thumbnail.
+-   `photo.html`: Displays a single photo along with bounding boxes and names for any recognized people. Clicking a name tag allows changing the assigned person. Accessed by clicking a photo thumbnail.
 
 ## Notes
 

@@ -27,9 +27,6 @@ def detect_and_process_faces(photo_doc, db, all_persons, person_encodings):
     encodings = face_recognition.face_encodings(rgb, locations)
     people = []
     for (top, right, bottom, left), face_encoding in zip(locations, encodings):
-        # Initialize matched_person_id to None
-        matched_person_id = None
-        
         # match against precomputed person_encodings
         if person_encodings:
             dists = face_recognition.face_distance(
@@ -38,6 +35,8 @@ def detect_and_process_faces(photo_doc, db, all_persons, person_encodings):
             idx = np.argmin(dists)
             if dists[idx] < THRESHOLD:
                 matched_person_id = person_encodings[idx]['_id']
+        else:
+            matched_person_id = None
 
         # crop & save face image
         x, y, w, h = left, top, right-left, bottom-top
@@ -81,24 +80,11 @@ def process_faces_batch(db):
     for p in all_persons:
         ff = p.get('facefile')
         if ff and os.path.exists(ff):
-            try:
-                img = face_recognition.load_image_file(ff)
-                encs = face_recognition.face_encodings(img)
-                if encs:
-                    person_encodings.append({'_id': p['_id'], 'encoding': encs[0]})
-            except Exception as e:
-                print(f"Error processing face file {ff}: {str(e)}")
-                continue
+            img = face_recognition.load_image_file(ff)
+            encs = face_recognition.face_encodings(img)
+            if encs:
+                person_encodings.append({'_id': p['_id'], 'encoding': encs[0]})
 
     photos = db.photos.find({'$or': [{'facechecked': False}, {'facechecked': {'$exists': False}}]})
     for photo in photos:
-        try:
-            detect_and_process_faces(photo, db, all_persons, person_encodings)
-            print(f"Successfully processed photo: {photo.get('filename')}")
-        except Exception as e:
-            print(f"Error processing photo {photo.get('_id')}: {str(e)}")
-            # Mark as checked with error flag to avoid reprocessing problematic photos
-            db.photos.update_one(
-                {'_id': photo['_id']},
-                {'$set': {'facechecked': True, 'processing_error': str(e)}}
-            )
+        detect_and_process_faces(photo, db, all_persons, person_encodings)

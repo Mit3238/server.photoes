@@ -46,6 +46,14 @@ h2 { /* Added style for card headings */
     color: var(--dark-gray);
 }
 
+h3 { /* Added style for modal heading */
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--dark-gray);
+}
+
+
 a {
     color: var(--primary-color);
     text-decoration: none;
@@ -57,25 +65,29 @@ a:hover {
 
 /* === Forms & Buttons === */
 input[type="text"],
-input[type="file"] { /* Apply common styles */
+input[type="file"],
+select { /* Apply common styles to select */
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     font-size: 1rem; /* Ensure consistent font size */
     line-height: 1.5; /* Match button line-height */
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    width: 100%; /* Make form controls block-like */
+    margin-bottom: 10px; /* Add space below form controls */
 }
 
 input[type="text"]:focus,
-input[type="file"]:focus { /* Focus style */
+input[type="file"]:focus,
+select:focus { /* Focus style */
     border-color: var(--primary-color);
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 input[type="file"] { /* Specific file input adjustments */
-    display: block; /* Make it block for form layout */
-    width: 100%; /* Take full width in flex context */
+    display: block;
+    width: 100%;
 }
 
 input[type="file"]::file-selector-button { /* Style the button part */
@@ -102,8 +114,8 @@ input[type="file"]::file-selector-button:hover {
      filter: brightness(90%);
 }
 
-button {
-    /* display: inline-block; */ /* Replaced by inline-flex */
+button,
+a.button { /* Apply base button styles to anchors with class="button" */
     display: inline-flex; /* Use flex for alignment */
     align-items: center; /* Align icon and text vertically */
     justify-content: center; /* Center content horizontally */
@@ -112,7 +124,7 @@ button {
     line-height: 1.5;
     color: #fff;
     text-align: center;
-    text-decoration: none;
+    text-decoration: none; /* Ensure no underline on button links */
     vertical-align: middle;
     cursor: pointer;
     user-select: none;
@@ -124,17 +136,20 @@ button {
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-button svg { /* Style for SVGs inside buttons */
+button svg,
+a.button svg { /* Updated selector for SVGs inside buttons AND button-styled anchors */
     width: 1em; /* Size relative to button font size */
     height: 1em;
-    /* margin-right: 0.5em; */ /* Replaced by gap property on button */
     vertical-align: text-bottom; /* Keep for potential fallback */
     fill: currentColor; /* Icon color matches text */
 }
 
 
-button:hover {
+button:hover,
+a.button:hover { /* Apply hover effect to button links too */
     filter: brightness(90%);
+    text-decoration: none; /* Ensure no underline on hover */
+    color: #fff; /* Keep text white on hover */
 }
 
 button:disabled { /* Style for disabled buttons */
@@ -145,14 +160,23 @@ button:disabled { /* Style for disabled buttons */
 /* Specific button types */
 #save-person-name-button,
 #upload-button,
-#start-processing-button {
+#start-processing-button,
+#save-tag-button {
     /* Uses default primary button style */
 }
 
 #cancel-edit-button,
-#stop-processing-button {
+#stop-processing-button,
+#cancel-tag-button,
+.back-button { /* Apply secondary style to back button */
     background-color: var(--secondary-color);
     border-color: var(--secondary-color);
+}
+
+/* Back button specific adjustments if needed */
+.back-button {
+    margin-bottom: 20px; /* Add space below */
+    padding: 8px 12px; /* Slightly smaller padding */
 }
 
 #edit-person-button {
@@ -324,6 +348,54 @@ button:disabled { /* Style for disabled buttons */
     transform: translateY(-100%);
     margin-top: -2px;
     margin-left: -1px;
+    cursor: pointer; /* Indicate clickability */
+    transition: background-color 0.15s ease; /* Add hover effect */
+}
+
+.name-tag:hover {
+    background-color: rgba(0, 0, 0, 0.9); /* Darken on hover */
+}
+
+/* === Modal Styles === */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    /* Use flex to center the modal content */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto; /* Centered */
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 500px; /* Maximum width */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.modal-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 10px;
+}
+
+#person-select {
+    /* Styles inherited from common input/select rule */
+}
+
+#edit-tag-status {
+    /* Styles inherited from .status-message */
 }
 
 /* === Responsiveness === */
@@ -337,6 +409,9 @@ button:disabled { /* Style for disabled buttons */
      h2 {
         font-size: 1.3rem;
     }
+    h3 {
+        font-size: 1.1rem;
+    }
     #photos-grid,
     #person-photos-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -349,6 +424,9 @@ button:disabled { /* Style for disabled buttons */
     .card {
         padding: 15px;
     }
+    .modal-content {
+        width: 90%; /* Adjust width for smaller screens */
+    }
 }
 
 @media (max-width: 480px) {
@@ -360,6 +438,9 @@ button:disabled { /* Style for disabled buttons */
     }
     h2 {
         font-size: 1.2rem;
+    }
+    h3 {
+        font-size: 1.0rem;
     }
     #photos-grid,
     #person-photos-grid {
@@ -407,5 +488,15 @@ button:disabled { /* Style for disabled buttons */
     }
     .card {
         padding: 10px;
+    }
+     .modal-content {
+        width: 95%; /* Adjust width for very small screens */
+        padding: 15px;
+    }
+    .modal-buttons {
+        flex-direction: column; /* Stack modal buttons */
+    }
+     .modal-buttons button {
+        width: 100%; /* Full width modal buttons */
     }
 }
