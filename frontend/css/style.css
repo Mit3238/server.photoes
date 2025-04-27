@@ -21,7 +21,10 @@
 
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: var(--light-gray);
+    /* background-color: var(--light-gray); */ /* Replaced by gradient */
+    background-image: linear-gradient(to bottom, #ffffff, var(--light-gray)); /* Added subtle gradient */
+    background-repeat: no-repeat; /* Prevent gradient repeating */
+    min-height: 100vh; /* Ensure gradient covers at least viewport height */
     color: var(--text-color);
     line-height: 1.5;
     padding: 20px;
@@ -100,7 +103,11 @@ input[type="file"]::file-selector-button:hover {
 }
 
 button {
-    display: inline-block;
+    /* display: inline-block; */ /* Replaced by inline-flex */
+    display: inline-flex; /* Use flex for alignment */
+    align-items: center; /* Align icon and text vertically */
+    justify-content: center; /* Center content horizontally */
+    gap: 0.5em; /* Add gap between icon and text */
     font-weight: 400;
     line-height: 1.5;
     color: #fff;
@@ -116,6 +123,15 @@ button {
     border-radius: var(--border-radius);
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+button svg { /* Style for SVGs inside buttons */
+    width: 1em; /* Size relative to button font size */
+    height: 1em;
+    /* margin-right: 0.5em; */ /* Replaced by gap property on button */
+    vertical-align: text-bottom; /* Keep for potential fallback */
+    fill: currentColor; /* Icon color matches text */
+}
+
 
 button:hover {
     filter: brightness(90%);

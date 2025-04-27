@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             if (personNameH1) {
-                personNameH1.textContent = data.name || 'Unknown Person'; // Update H1 with person's name
+                 personNameH1.textContent = data.personname || 'Unknown Person'; // Update H1 with person's name
             }
             // Show edit button only after loading name
              if (editPersonButton) editPersonButton.style.display = 'inline-block';
