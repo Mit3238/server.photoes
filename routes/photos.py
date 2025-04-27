@@ -81,7 +81,7 @@ def list_images():
     per_page = int(request.args.get('per_page', 10))
     skip = (page - 1) * per_page
     total = db.photos.count_documents({})
-    photos = list(db.photos.find().skip(skip).limit(per_page))
+    photos = list(db.photos.find().sort('_id', -1).skip(skip).limit(per_page))
     for photo in photos:
         photo['_id'] = str(photo['_id'])
         if 'people' in photo:
