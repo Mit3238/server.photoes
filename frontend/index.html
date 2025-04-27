@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="upload-section card">
+      <h2>Upload Photos</h2>
+      <form id="upload-form">
+        <input type="file" id="photo-input" name="photos" multiple required accept="image/*">
+        <button type="submit" id="upload-button">Upload</button>
+      </form>
+      <p id="upload-status-message" class="status-message"></p>
+    </div>
+
+    <div class="processing-controls card">
+      <h2>Face Processing</h2>
+      <button id="start-processing-button">Start Processing</button>
+      <button id="stop-processing-button">Stop Processing</button>
+      <p id="processing-status-message" class="status-message"></p>
+    </div>
+
     <h1>Persons</h1>
     <div id="persons-list">
         <!-- Person thumbnails will be loaded here -->

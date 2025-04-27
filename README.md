@@ -41,8 +41,8 @@ Since the Flask application is now configured to serve the frontend files:
 
 ### Frontend Pages
 
--   `index.html`: The homepage, displaying a list of recognized persons and a grid of recent photos.
--   `person.html`: Shows all photos associated with a specific person. Accessed by clicking a person on the homepage.
+-   `index.html`: The homepage, allowing users to upload new photos, start/stop background face processing, view a list of recognized persons, and see a grid of recent photos.
+-   `person.html`: Shows all photos associated with a specific person and allows editing the person's name. Accessed by clicking a person on the homepage.
 -   `photo.html`: Displays a single photo along with bounding boxes and names for any recognized people within that photo. Accessed by clicking a photo thumbnail.
 
 ## Notes
