@@ -12,7 +12,7 @@ def list_persons():
     per_page = int(request.args.get('per_page', 10))
     skip = (page - 1) * per_page
     total = db.person.count_documents({})
-    persons = list(db.person.find().skip(skip).limit(per_page))
+    persons = list(db.person.find())
     for person in persons:
         person['_id'] = str(person['_id'])
     return jsonify({'total': total, 'page': page, 'per_page': per_page, 'persons': persons})
